@@ -73,7 +73,7 @@ void init_pwm_setup()
   // PWM設定
   for (int i = 0; i < 4; i++)
   {
-    ledcAttach(motor_pwm[i], 1000, 8); // PWM出力ピン、周波数5000Hz、8ビット解像度
+    ledcAttach(motor_pwm[i], 1000, 8); // PWM出力ピン、周波数1000Hz、8ビット解像度
   }
 }
 
@@ -115,7 +115,7 @@ void driveMotor(int index, float controlSignal)
   ledcWrite(motor_pwm[index], (int)controlSignal);
 }
 
-// モーターを停止
+// モーターを停止 目標値をリセット
 void stopMotors()
 {
   for (int i = 0; i < 4; i++)
@@ -150,7 +150,7 @@ void loop()
 
   for (int i = 0; i < 4; i++)
   {
-    float currentDistance = encoderCount[0] * distancePerCount; // 現在の移動距離
+    float currentDistance = encoderCount[i] * distancePerCount; // 現在の移動距離
     float controlSignal = pidCompute(i, targetDistance[i], currentDistance);
 
     // 制御信号に基づいてモーターを駆動
